@@ -1,3 +1,5 @@
+version: '3.8'  # Specify the version here
+
 services:
   prometheus:
     image: prom/prometheus
@@ -23,16 +25,16 @@ services:
     volumes:
       - ./grafana:/etc/grafana/provisioning/datasources
 
-loki:
-  image: grafana/loki:2.5.0
-  container_name: loki
-  ports:
-    - 3100:3100
-  restart: unless-stopped
-  command: -config.file=/etc/loki/local-config.yaml
-  volumes:
-    - ./loki-config.yaml:/etc/loki/local-config.yaml
-    - ./loki:/loki  # Add this line to mount the directory
+  loki:
+    image: grafana/loki:2.5.0
+    container_name: loki
+    ports:
+      - 3100:3100
+    restart: unless-stopped
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki-config.yaml:/etc/loki/local-config.yaml
+      - ./loki:/loki  # Mount the directory for Loki's storage
 
   promtail:
     image: grafana/promtail:2.5.0
